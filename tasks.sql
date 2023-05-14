@@ -14,4 +14,13 @@ begin
     and hire_date > add_months(sysdate, -12);
     RETURN v_salary;
     end;
-    
+  
+--------------------------------------------------------------------------------------------------
+  
+--Написать скрипт, который выводит на экран список всех менеджеров 
+--и количества подчиненных каждого менеджера.
+
+SELECT e.employee_id, e.first_name || ' ' || e.last_name AS manager_name, COUNT(*) AS subordinate_count
+FROM employees e
+JOIN employees s ON e.employee_id = s.manager_id
+GROUP BY e.employee_id, e.first_name, e.last_name;
