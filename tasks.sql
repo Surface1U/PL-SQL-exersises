@@ -24,3 +24,8 @@ SELECT e.employee_id, e.first_name || ' ' || e.last_name AS manager_name, COUNT(
 FROM employees e
 JOIN employees s ON e.employee_id = s.manager_id
 GROUP BY e.employee_id, e.first_name, e.last_name;
+----------------------------------------------------------------------------------
+--тут я считаю количество лет с момента наёма 
+
+select employees.first_name, employees.last_name,
+EXTRACT(YEAR from sysdate) - EXTRACT(year from hire_date) from employees where extract(month from hire_date) = EXTRACT(month from sysdate)
