@@ -29,3 +29,19 @@ GROUP BY e.employee_id, e.first_name, e.last_name;
 
 select employees.first_name, employees.last_name,
 EXTRACT(YEAR from sysdate) - EXTRACT(year from hire_date) from employees where extract(month from hire_date) = EXTRACT(month from sysdate)
+------------------------------------------------------------------------------
+--Написать хранимую процедуру, которая принимает на вход департамент и год,
+--а затем выводит на экран список всех сотрудников этого департамента, 
+--чьи зарплаты выше средней зарплаты по этому департаменту за заданный год.
+
+
+-- вот тут главное не забыть про into
+CREATE OR REPLACE PROCEDURE Get_AVG_Salary(dep_id IN employees.department_id%TYPE, Hire_year IN NUMBER)
+IS
+    avg_salary NUMBER;
+BEGIN 
+    SELECT AVG(salary) INTO avg_salary FROM employees 
+    WHERE department_id = dep_id AND EXTRACT(YEAR FROM hire_date) = Hire_year;
+    
+    DBMS_OUTPUT.PUT_LINE('The average salary in department ' || dep_id || ' in ' || Hire_year || ' is ' || avg_salary);
+END;
