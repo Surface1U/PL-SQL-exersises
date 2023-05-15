@@ -54,3 +54,18 @@ create or replace trigger Put_Hire_Date
     begin
         :NEW.hire_date := sysdate;
     end;
+---------------------------------------------------
+--запретить удаление департаментов, если в нём есть сотрудники
+
+create or replace trigger prevent_department_delete_trigger
+before delete on departments
+for each row 
+    declare employees_number number;
+begin 
+    select count(*) into employees_number from employees
+    where department_id = :OLD.department_id;
+    
+    if employees_number > 0 then 
+        raise_application_error (-20001, 'Cannot delete this department');
+    end if;
+end;
