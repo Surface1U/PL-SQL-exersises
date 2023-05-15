@@ -45,3 +45,12 @@ BEGIN
     
     DBMS_OUTPUT.PUT_LINE('The average salary in department ' || dep_id || ' in ' || Hire_year || ' is ' || avg_salary);
 END;
+---------------------------------------------------------------------------------
+--здесь надо автоматически присваивать текущую дату найма при добавлении нового сотрудника
+
+create or replace trigger Put_Hire_Date 
+    before insert on employees
+    for each row
+    begin
+        :NEW.hire_date := sysdate;
+    end;
